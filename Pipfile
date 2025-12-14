@@ -12,6 +12,8 @@ lightgbm = "*"
 matplotlib = "*"
 seaborn = "*"
 ipykernel = "*"
+plotly = "*"
+nbformat = "*"
 
 [dev-packages]
 
