@@ -86,3 +86,88 @@ The primary evaluation metric selected was **ROC-AUC (Area Under the Curve)** be
 
 Random Forest was selected as the final model for deployment.
 The final Random Forest model (tuned with `n_estimators`, `max_depth`, `min_samples_leaves`, and `min_samples_split`) achieved an **AUC of ~0.782** on the validation set.
+
+---
+
+# Setup & Installation
+
+1. Clone the Repository:
+
+```
+git clone https://github.com/nicolas-hbt/mlzoomcamp-capstone-1.git
+cd mlzoomcamp-capstone-1
+```
+
+2. Create a Virtual Environment and Install Dependencies:
+
+```
+# Install Pipenv if you haven't already
+pip install pipenv
+
+# Install project dependencies from Pipfile.lock
+pipenv install
+```
+
+# Usage
+There are three main ways to use this project:
+
+1. Run the Prediction Server
+This starts the Flask API server, which loads the pre-trained model to serve predictions.
+
+```
+python predict.py
+```
+The server will be running at http://0.0.0.0:9696 (or http://localhost:9696).
+
+2. Test the Prediction Server
+While the server is running (in a separate terminal), you can run the test script to send a sample request.
+
+```
+python predict_test.py
+```
+You should see a JSON response with predictions for 5 different people.
+The test script sends the following JSON data to the /predict endpoint. 
+You can use this structure for your own requests and change parameters as you wish:
+
+```json
+{
+    "city": "city_21",
+    "city_development_index": 0.624,
+    "gender": "Male",
+    "relevent_experience": "Has relevent experience",
+    "enrolled_university": "no_enrollment",
+    "education_level": "Masters",
+    "major_discipline": "STEM",
+    "experience": "5",
+    "company_size": "50-99",
+    "company_type": "Funded Startup",
+    "last_new_job": "1",
+    "training_hours": 45
+}
+```
+
+3. (Optional) Re-train the Model
+If you want to re-train the model from scratch:
+
+```
+python train.py
+```
+
+This will load aug_train.csv, run the preprocessing and cross-validation, and save a new model.bin file.
+
+## 🐳 Alternative Usage (Docker)
+You can also build and run this project as a Docker container using the provided Dockerfile.
+
+Build the Docker Image From the root of the repository, run:
+
+```
+docker build -t job-change-predictor .
+```
+
+Run the Docker Container This command runs the container and maps your local port 9696 to the container's port 9696 .
+
+```
+docker run -d -p 9696:9696 job-change-predictor
+```
+
+The prediction server is now running and accessible at http://localhost:9696/predict. You can test it using predict_test.py as shown in the local usage section.
